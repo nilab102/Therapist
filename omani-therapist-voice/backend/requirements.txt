@@ -1,0 +1,70 @@
+# Pipecat framework with native audio streaming support
+pipecat-ai==0.0.73
+
+# FastAPI and WebSocket support
+fastapi==0.104.1
+uvicorn[standard]==0.24.0
+websockets==13.1
+python-multipart==0.0.6
+
+# Environment configuration
+python-dotenv>=1.0.0
+
+# Logging
+loguru>=0.7.0
+
+# Audio processing and VAD
+torch>=2.0.0
+torchaudio>=2.0.0
+numpy>=1.24.0
+scipy>=1.10.0
+soundfile>=0.12.0
+librosa>=0.10.0
+resampy>=0.4.0
+onnxruntime>=1.16.0
+
+# OpenAI Whisper for audio processing
+openai-whisper>=20231117
+
+# Native Audio LLM Services (for ultra-low latency)
+openai>=1.0.0
+
+# Google Gemini Live (via Pipecat)
+google-generativeai>=0.3.0
+grpcio>=1.50.0
+
+# Fallback STT Services
+deepgram-sdk>=3.0.0
+
+# Fallback TTS Services  
+cartesia>=1.0.0
+elevenlabs>=1.0.0
+
+# Protobuf for serialization
+protobuf>=4.0.0
+
+# Additional utilities
+aiofiles>=23.2.0
+requests>=2.31.0
+httpx>=0.25.0
+
+# Audio processing dependencies
+PyAudio>=0.2.11
+pydub>=0.25.1
+pyloudnorm>=0.1.0
+
+# Machine learning and model dependencies
+huggingface-hub>=0.16.0
+transformers>=4.0.0
+accelerate>=0.20.0
+safetensors>=0.3.0
+
+
+# Additional audio processing tools
+edge-tts>=6.0.0
+kaldiio>=2.17.0
+
+# Optional performance optimizations
+# For GPU acceleration (uncomment if you have CUDA)
+# torch-audio-cuda
+# torch-vision-cuda
