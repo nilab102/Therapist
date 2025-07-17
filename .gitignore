@@ -304,4 +304,7 @@ dmypy.json
 temp/
 tmp/
 *.tmp
-*.temp 
+*.temp
+
+# Test files
+testcase.md 

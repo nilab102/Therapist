@@ -81,6 +81,7 @@ load_dotenv(override=True)
 
 logger.remove(0)
 logger.add(sys.stderr, level="DEBUG")
+logger.add("transcripts.log", level="INFO", rotation="10 MB", filter=lambda record: record["extra"].get("is_conversation", False))
 
 # Default to general therapy agent
 SYSTEM_INSTRUCTION = GENERAL_THERAPY_INSTRUCTION
@@ -210,8 +211,8 @@ async def create_therapy_gemini_llm(system_instruction: str, tools_schema=None):
         api_key=google_key,
         system_instruction=system_instruction,
         voice_id="Zephyr",  # Calm, empathetic voice
-        models='models/gemini-2.5-flash-preview-native-audio-dialog',
-        temperature=0,
+        models='models/gemini-live-2.5-flash-preview',
+        temperature=2,
         transcribe_model_audio=True,
         tools=tools_schema,
     )
@@ -699,11 +700,11 @@ async def run_therapy_bot(websocket: WebSocket):
     # Add transcript relay to frontend
     @transcript.event_handler("on_transcript_update")
     async def on_transcript_update(processor, frame):
-        # Log transcriptions for debugging (RTVI handles frontend communication automatically)
+        # Log only conversational messages (user and therapist/assistant) to transcripts.log
         for msg in frame.messages:
             if hasattr(msg, 'role') and hasattr(msg, 'content'):
                 if msg.role in ("user", "model", "assistant") and msg.content:
-                    logger.info(f"🏥 Transcript: {msg.role}: {msg.content}")
+                    logger.bind(is_conversation=True).info(f"{msg.role}: {msg.content}")
     
     # Run the therapeutic pipeline
     runner = PipelineRunner(handle_sigint=False)
@@ -977,6 +978,26 @@ async def health_check():
             "message_format": "Send audio as protobuf frames to /ws, configuration as JSON to /ws/tools"
         }
     }
+
+@app.post("/log-conversation")
+async def log_conversation(request: Request):
+    """Log conversation messages from frontend to transcripts.log"""
+    try:
+        body = await request.json()
+        role = body.get("role")
+        content = body.get("content")
+        timestamp = body.get("timestamp")
+        is_audio = body.get("isAudio", False)
+        
+        if role and content:
+            # Log to transcripts.log using the same format as the transcript handler
+            logger.bind(is_conversation=True).info(f"{role}: {content}")
+            return {"status": "logged", "message": "Conversation logged successfully"}
+        else:
+            return {"status": "error", "message": "Missing role or content"}
+    except Exception as e:
+        logger.error(f"Error logging conversation: {e}")
+        return {"status": "error", "message": str(e)}
 
 
 @app.post("/connect")

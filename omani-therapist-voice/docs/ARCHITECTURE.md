@@ -403,8 +403,8 @@ async def create_therapy_gemini_llm(system_instruction: str, tools_schema=None):
         api_key=google_key,
         system_instruction=system_instruction,
         voice_id="Zephyr",  # Calm, empathetic voice
-        models='models/gemini-2.5-flash-preview-native-audio-dialog',
-        temperature=0,
+        models='models/gemini-live-2.5-flash-preview',
+        temperature=1,
         transcribe_model_audio=True,
         tools=tools_schema,
     )
@@ -933,6 +933,4 @@ class TherapeuticServiceRegistry:
 - **Monitoring Enhancement**: Advanced service performance tracking
 - **Security Hardening**: Enhanced security for dual service architecture
 
----
 
-This updated architecture documentation reflects the integration of OpenAI Realtime API as a fallback mechanism alongside Gemini Live, providing a comprehensive dual-service architecture that ensures maximum reliability, performance, and clinical safety for the OMANI Therapist Voice platform. 

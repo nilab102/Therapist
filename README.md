@@ -73,7 +73,7 @@ yarn dev
 
 ```bash
 # Navigate to backend directory
-cd omani-therapist-voice
+cd omani-therapist-voice/backend
 
 # Activate virtual environment (if not already activated)
 source venv/bin/activate  # macOS/Linux

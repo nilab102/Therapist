@@ -70,8 +70,8 @@ llm_service = GeminiMultimodalLiveLLMService(
     api_key=google_key,
     system_instruction=system_instruction,
     voice_id="Zephyr",  # Calm, empathetic voice
-    models='models/gemini-2.5-flash-preview-native-audio-dialog',
-    temperature=0,
+    models='models/gemini-live-2.5-flash-preview',
+    temperature=1,
     transcribe_model_audio=True,
     tools=tools_schema,
 )
