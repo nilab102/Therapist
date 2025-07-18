@@ -117,9 +117,6 @@ public
 tmp/
 temp/
 
-# Logs
-logs
-*.log
 
 # Runtime data
 pids
